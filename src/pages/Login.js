@@ -1,11 +1,41 @@
-import React from 'react'
+import React, { useState } from "react";
+import "./Auth.css";
 
 const Login = () => {
-  return (
-    <div>
-      <p>login</p>
-    </div>
-  )
-}
+  const [formData, setFormData] = useState({ email: "", password: "" });
 
-export default Login
+  const handleChange = (e) => {
+    setFormData(prev => ({
+      ...prev,
+      [e.target.name]: e.target.value
+    }));
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    // TODO: Add authentication logic
+    console.log("Login info:", formData);
+    alert("Logged in (not really, just a test)");
+  };
+
+  return (
+    <div className="auth-container">
+      <h1>Login</h1>
+      <form onSubmit={handleSubmit} className="auth-form">
+        <label>
+          Email:
+          <input type="email" name="email" required onChange={handleChange} />
+        </label>
+
+        <label>
+          Password:
+          <input type="password" name="password" required onChange={handleChange} />
+        </label>
+
+        <button type="submit">Login</button>
+      </form>
+    </div>
+  );
+};
+
+export default Login;
