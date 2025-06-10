@@ -11,6 +11,8 @@ import About from "./pages/About";
 import Contact from "./pages/Contact";
 import ProtectedRoute from "./components/ProtectedRoute";
 // import Register from "./pages/Register";
+import MyRegistrations from "./pages/MyRegistrations";
+// import ProtectedRoute from "./components/ProtectedRoute";
 
 function App() {
   return (
@@ -24,6 +26,14 @@ function App() {
           element={
             <ProtectedRoute>
               <Register />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/my-registrations"
+          element={
+            <ProtectedRoute>
+              <MyRegistrations />
             </ProtectedRoute>
           }
         />

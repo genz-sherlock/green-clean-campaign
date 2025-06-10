@@ -5,7 +5,7 @@ import { auth } from "../firebase";
 import { useAuth } from "../context/AuthContext";
 
 const Navbar = () => {
-  const { currentUser } = useAuth();
+  const { currentUser, userRole } = useAuth();
 
   const handleLogout = () => {
     signOut(auth);
@@ -28,6 +28,8 @@ const Navbar = () => {
           <Link to="/signup">Signup</Link>
         </>
       )}
+      {currentUser && <Link to="/my-registrations">My Registrations</Link>}
+      {userRole === "admin" && <Link to="/create-campaign">Create Campaign</Link>}
     </nav>
   );
 };

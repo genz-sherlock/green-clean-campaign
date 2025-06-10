@@ -1,6 +1,9 @@
 import React, { useState, useEffect } from "react";
 import { useLocation } from "react-router-dom";
 import "./Register.css";
+import { db } from "../firebase";
+import { collection, addDoc, Timestamp } from "firebase/firestore";
+import { useAuth } from "../context/AuthContext";
 
 const Register = () => {
   const location = useLocation();
@@ -21,12 +24,17 @@ const Register = () => {
       [name]: value
     }));
   };
+  const { currentUser } = useAuth();
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
+  const handleSubmit = async (e) => {
+  e.preventDefault();
 
-    // TODO: Send formData to a server or Firebase here
-    console.log("Registration Data:", formData);
+  try {
+    await addDoc(collection(db, "registrations"), {
+      ...formData,
+      userId: currentUser.uid,
+      timestamp: Timestamp.now()
+    });
     alert("Registered successfully!");
     setFormData({
       name: "",
@@ -34,7 +42,12 @@ const Register = () => {
       phone: "",
       campaign: selectedCampaign || ""
     });
-  };
+  } catch (err) {
+    console.error("Error saving registration:", err);
+    alert("Failed to register. Please try again.");
+  }
+};
+  
 
   return (
     <div className="register-container">
