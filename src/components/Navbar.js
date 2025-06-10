@@ -29,7 +29,7 @@ const Navbar = () => {
         </>
       )}
       {currentUser && <Link to="/my-registrations">My Registrations</Link>}
-      {userRole === "admin" && <Link to="/create-campaign">Create Campaign</Link>}
+      {currentUser && userRole === "admin" && <Link to="/create-campaign">Create Campaign</Link>}
     </nav>
   );
 };

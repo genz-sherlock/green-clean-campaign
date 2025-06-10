@@ -13,8 +13,12 @@ import ProtectedRoute from "./components/ProtectedRoute";
 // import Register from "./pages/Register";
 import MyRegistrations from "./pages/MyRegistrations";
 // import ProtectedRoute from "./components/ProtectedRoute";
+import CreateCampaign from "./pages/CreateCampaign";
+import { useAuth } from "./context/AuthContext";
 
 function App() {
+  const { currentUser, userRole } = useAuth();
+  // const userRole = currentUser?.role || "user"; 
   return (
     <Router>
       <Navbar />
@@ -34,6 +38,14 @@ function App() {
           element={
             <ProtectedRoute>
               <MyRegistrations />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/create-campaign"
+          element={
+            <ProtectedRoute>
+              {userRole === "admin" ? <CreateCampaign /> : <p>Access denied.</p>}
             </ProtectedRoute>
           }
         />
