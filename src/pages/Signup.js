@@ -1,9 +1,20 @@
 import React, { useState } from "react";
 import "./Auth.css";
 
+import { createUserWithEmailAndPassword } from "firebase/auth";
+import { auth } from "../firebase";
+import { useNavigate } from "react-router-dom";
+
+// Inside Signup component:
+
+
+
+
+
+
 const Signup = () => {
   const [formData, setFormData] = useState({ name: "", email: "", password: "" });
-
+  const navigate = useNavigate();
   const handleChange = (e) => {
     setFormData(prev => ({
       ...prev,
@@ -11,12 +22,16 @@ const Signup = () => {
     }));
   };
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    // TODO: Send data to backend or Firebase
-    console.log("Signup info:", formData);
-    alert("Signup successful (not really, just a test)");
-  };
+  const handleSubmit = async (e) => {
+  e.preventDefault();
+  try {
+    await createUserWithEmailAndPassword(auth, formData.email, formData.password);
+    alert("Signup successful!");
+    navigate("/");
+  } catch (error) {
+    alert(error.message);
+  }
+};
 
   return (
     <div className="auth-container">

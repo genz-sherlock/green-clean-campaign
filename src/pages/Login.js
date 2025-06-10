@@ -1,7 +1,11 @@
 import React, { useState } from "react";
 import "./Auth.css";
+import { signInWithEmailAndPassword } from "firebase/auth";
+import { auth } from "../firebase";
+import { useNavigate } from "react-router-dom";
 
 const Login = () => {
+    const navigate = useNavigate();
   const [formData, setFormData] = useState({ email: "", password: "" });
 
   const handleChange = (e) => {
@@ -11,12 +15,16 @@ const Login = () => {
     }));
   };
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    // TODO: Add authentication logic
-    console.log("Login info:", formData);
-    alert("Logged in (not really, just a test)");
-  };
+  const handleSubmit = async (e) => {
+  e.preventDefault();
+  try {
+    await signInWithEmailAndPassword(auth, formData.email, formData.password);
+    alert("Login successful!");
+    navigate("/");
+  } catch (error) {
+    alert(error.message);
+  }
+};
 
   return (
     <div className="auth-container">
